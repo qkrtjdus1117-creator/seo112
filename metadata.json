@@ -1,0 +1,6 @@
+{
+  "name": "교육 만족도 분석기",
+  "description": "공공기관 교육 담당자를 위한 교육 만족도 CSV 자동 분석, 핵심 지표 요약, 시각화 차트 및 결과보고서 자동 생성 웹앱",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
