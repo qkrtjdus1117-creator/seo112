@@ -1,6 +1,7 @@
 import React from 'react';
 import { Users, Star, TrendingUp, AlertTriangle } from 'lucide-react';
 import { ItemScoreInfo } from '../types';
+import { useTheme } from '../theme/ThemeContext';
 
 interface CoreResultCardsProps {
   totalCount: number;
@@ -22,6 +23,7 @@ export const CoreResultCards: React.FC<CoreResultCardsProps> = ({
   highestItem,
   lowestItem
 }) => {
+  const { theme } = useTheme();
   // 100점 만점 환산 점수
   const convertedScore100 = ((overallAverage / 5) * 100).toFixed(1);
 
@@ -29,7 +31,7 @@ export const CoreResultCards: React.FC<CoreResultCardsProps> = ({
     <section className="mb-8">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
-          <span className="w-2 h-5 bg-blue-700 rounded-xs inline-block"></span>
+          <span className={`w-2 h-5 ${theme.primaryBg} rounded-xs inline-block transition-colors`}></span>
           핵심 결과 요약
         </h3>
         <span className="text-xs text-slate-500 font-normal">
@@ -44,7 +46,7 @@ export const CoreResultCards: React.FC<CoreResultCardsProps> = ({
             <span className="text-xs font-semibold tracking-wider text-slate-500 uppercase">
               전체 응답자 수
             </span>
-            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+            <div className={`w-8 h-8 rounded-lg ${theme.accentBgLight} ${theme.primaryText} flex items-center justify-center transition-colors`}>
               <Users className="w-4 h-4" />
             </div>
           </div>
@@ -56,14 +58,14 @@ export const CoreResultCards: React.FC<CoreResultCardsProps> = ({
           </div>
           <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
             <span className="text-slate-500">설문 유효 응답률</span>
-            <span className="font-semibold text-blue-700">100% 정상 수렴</span>
+            <span className={`font-semibold ${theme.primaryText}`}>100% 정상 수렴</span>
           </div>
         </div>
 
         {/* 카드 2: 전반적 만족도 평균 */}
-        <div className="bg-white rounded-xl border border-blue-200/80 shadow-2xs p-5 relative overflow-hidden transition-all hover:border-blue-300">
+        <div className="bg-white rounded-xl border border-slate-200/90 shadow-2xs p-5 relative overflow-hidden transition-all hover:border-slate-300">
           <div className="flex items-center justify-between text-slate-500 mb-2">
-            <span className="text-xs font-semibold tracking-wider text-blue-700 uppercase">
+            <span className={`text-xs font-semibold tracking-wider ${theme.primaryText} uppercase`}>
               전반적 만족도 평균
             </span>
             <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">

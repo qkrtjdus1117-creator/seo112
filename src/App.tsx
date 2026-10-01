@@ -16,12 +16,14 @@ import { AnalysisResult, ValidationErrorDetail } from './types';
 import { parseSurveyCsv } from './utils/csvParser';
 import { analyzeSurveyData } from './utils/analyzer';
 import { SAMPLE_SURVEY_DATA } from './utils/sampleData';
+import { ThemeProvider, useTheme } from './theme/ThemeContext';
 
 /**
- * 교육 만족도 분석 웹앱 메인 컴포넌트
- * 공공기관 교육 운영 담당자를 위한 CSV 자동 집계 분석 및 결과보고서 자동 생성 시스템
+ * 교육 만족도 분석 웹앱 메인 컨텐츠 컴포넌트
  */
-export default function App() {
+function AppContent() {
+  const { theme } = useTheme();
+
   // 업로드된 파일명 및 원본 CSV 텍스트
   const [currentFileName, setCurrentFileName] = useState<string | null>(null);
 
@@ -36,8 +38,6 @@ export default function App() {
 
   /**
    * CSV 파일 내용 로드 및 엄격한 유효성 검증 실행
-   * @param csvText 업로드된 CSV 파일 텍스트
-   * @param fileName 업로드된 파일 이름
    */
   const handleProcessCsv = (csvText: string, fileName: string) => {
     setErrorMessage(null);
@@ -102,8 +102,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-800">
-      {/* 1. 상단 헤더: 제목 "교육 만족도 분석기" 및 공공기관 서식 유틸리티 */}
+    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-800 transition-colors">
+      {/* 1. 상단 헤더: 제목 "교육 만족도 분석기" 및 공공기관 서식 유틸리티 & 테마 선택기 */}
       <Header
         hasData={analysisResult !== null}
         onLoadSample={handleLoadSample}
@@ -177,7 +177,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={handleLoadSample}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 rounded-lg shadow-xs transition-colors"
+                  className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white ${theme.primaryBg} ${theme.primaryHoverBg} ${theme.primaryActiveBg} rounded-lg shadow-xs transition-colors`}
                 >
                   준비된 샘플 설문 데이터로 바로 확인해보기
                 </button>
@@ -198,3 +198,10 @@ export default function App() {
   );
 }
 
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}

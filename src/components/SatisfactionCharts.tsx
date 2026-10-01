@@ -1,6 +1,7 @@
 import React from 'react';
 import { BarChart3, PieChart, Info } from 'lucide-react';
 import { ItemScoreInfo, ScoreDistribution } from '../types';
+import { useTheme } from '../theme/ThemeContext';
 
 interface SatisfactionChartsProps {
   itemScores: ItemScoreInfo[];
@@ -18,6 +19,7 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
   distribution,
   totalCount
 }) => {
+  const { theme } = useTheme();
   // Max score is 5.0
   const maxScore = 5.0;
 
@@ -28,7 +30,7 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
     <section className="mb-8">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
-          <span className="w-2 h-5 bg-blue-700 rounded-xs inline-block"></span>
+          <span className={`w-2 h-5 ${theme.primaryBg} rounded-xs inline-block transition-colors`}></span>
           만족도 분석 차트
         </h3>
         <span className="text-xs text-slate-500 font-normal">
@@ -42,7 +44,7 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
           <div>
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-md bg-blue-50 text-blue-700 flex items-center justify-center">
+                <div className={`w-7 h-7 rounded-md ${theme.accentBgLight} ${theme.primaryText} flex items-center justify-center transition-colors`}>
                   <BarChart3 className="w-4 h-4" />
                 </div>
                 <div>
@@ -69,13 +71,13 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
                       <div className="flex items-center gap-2">
                         <span
                           className={`font-semibold ${
-                            isOverall ? 'text-blue-900 font-bold' : 'text-slate-700'
+                            isOverall ? `${theme.primaryText} font-bold` : 'text-slate-700'
                           }`}
                         >
                           {item.label}
                         </span>
                         {isOverall && (
-                          <span className="px-1.5 py-0.2 bg-blue-100 text-blue-800 text-[10px] font-bold rounded">
+                          <span className={`px-1.5 py-0.2 ${theme.accentBgLight} ${theme.primaryText} text-[10px] font-bold rounded border border-slate-200`}>
                             종합
                           </span>
                         )}
@@ -106,11 +108,11 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${
                           isOverall
-                            ? 'bg-blue-600'
+                            ? theme.barColor
                             : item.score >= 4.5
                             ? 'bg-emerald-500'
                             : item.score >= 4.0
-                            ? 'bg-blue-500'
+                            ? theme.barColor
                             : 'bg-amber-500'
                         }`}
                         style={{ width: `${Math.min(100, Math.max(0, scorePercent))}%` }}
@@ -125,7 +127,7 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
           <div className="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span> 종합 지표
+                <span className={`w-2.5 h-2.5 rounded-full ${theme.barColor} inline-block`}></span> 종합 지표
               </span>
               <span className="flex items-center gap-1">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> 최우수 영역 (4.5점 이상)
@@ -140,7 +142,7 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
           <div>
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-md bg-indigo-50 text-indigo-700 flex items-center justify-center">
+                <div className={`w-7 h-7 rounded-md ${theme.accentBgLight} ${theme.primaryText} flex items-center justify-center transition-colors`}>
                   <PieChart className="w-4 h-4" />
                 </div>
                 <div>
@@ -162,7 +164,7 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
                 
                 // Color schemes based on score
                 const colorMap: Record<number, { bar: string; badge: string; text: string }> = {
-                  5: { bar: 'bg-blue-600', badge: 'bg-blue-50 text-blue-800 border-blue-200', text: 'text-blue-900' },
+                  5: { bar: theme.barColor, badge: `${theme.accentBgLight} ${theme.primaryText} border-slate-200`, text: theme.primaryText },
                   4: { bar: 'bg-teal-500', badge: 'bg-teal-50 text-teal-800 border-teal-200', text: 'text-teal-900' },
                   3: { bar: 'bg-amber-400', badge: 'bg-amber-50 text-amber-800 border-amber-200', text: 'text-amber-900' },
                   2: { bar: 'bg-orange-400', badge: 'bg-orange-50 text-orange-800 border-orange-200', text: 'text-orange-900' },
@@ -208,7 +210,7 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
               <Info className="w-3.5 h-3.5 text-slate-400" />
               <span>
                 긍정 응답 비율(4~5점):{' '}
-                <strong className="text-blue-700 font-bold">
+                <strong className={`${theme.primaryText} font-bold`}>
                   {(
                     (distribution.find((d) => d.score === 5)?.percentage || 0) +
                     (distribution.find((d) => d.score === 4)?.percentage || 0)
@@ -224,3 +226,4 @@ export const SatisfactionCharts: React.FC<SatisfactionChartsProps> = ({
     </section>
   );
 };
+

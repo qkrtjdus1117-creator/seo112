@@ -10,6 +10,7 @@ import {
   Printer
 } from 'lucide-react';
 import { ReportSummaryData } from '../types';
+import { useTheme } from '../theme/ThemeContext';
 
 interface ReportSummaryProps {
   report: ReportSummaryData;
@@ -28,6 +29,7 @@ export const ReportSummary: React.FC<ReportSummaryProps> = ({
   report,
   courseTitle = '공공 교육과정'
 }) => {
+  const { theme } = useTheme();
   const [copiedAll, setCopiedAll] = useState(false);
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
 
@@ -74,7 +76,7 @@ ${report.futureImplications}\n
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
         <div>
           <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
-            <span className="w-2 h-5 bg-blue-700 rounded-xs inline-block"></span>
+            <span className={`w-2 h-5 ${theme.primaryBg} rounded-xs inline-block transition-colors`}></span>
             교육 결과 요약 (보고서용)
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -95,7 +97,7 @@ ${report.futureImplications}\n
           <button
             type="button"
             onClick={handleCopyAll}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 active:bg-blue-900 rounded-lg shadow-2xs transition-colors"
+            className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white ${theme.primaryBg} ${theme.primaryHoverBg} ${theme.primaryActiveBg} rounded-lg shadow-2xs transition-colors`}
           >
             {copiedAll ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copiedAll ? '전체 복사 완료!' : '보고서 전체 텍스트 복사'}</span>
@@ -107,7 +109,7 @@ ${report.futureImplications}\n
         {/* 보고서 공식 헤더 */}
         <div className="border-b border-slate-200 pb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-blue-700" />
+            <FileText className={`w-5 h-5 ${theme.primaryText}`} />
             <h4 className="text-base font-bold text-slate-900">
               만족도 설문조사 종합 분석 결과보고
             </h4>
@@ -120,11 +122,11 @@ ${report.futureImplications}\n
         {/* 4대 항목 그리드 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* 1. 교육 만족도 종합 평가 */}
-          <div className="rounded-xl border border-blue-100 bg-blue-50/30 p-5 flex flex-col justify-between">
+          <div className={`rounded-xl border border-slate-200 ${theme.accentBgLight}/40 p-5 flex flex-col justify-between`}>
             <div>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center">
+                  <div className={`w-7 h-7 rounded-md ${theme.accentBgLight} ${theme.primaryText} flex items-center justify-center`}>
                     <Award className="w-4 h-4" />
                   </div>
                   <h5 className="text-sm font-bold text-slate-900">
@@ -136,7 +138,7 @@ ${report.futureImplications}\n
                   onClick={() =>
                     handleCopySection('1. 교육 만족도 종합 평가', report.overallAssessment)
                   }
-                  className="text-xs text-slate-500 hover:text-blue-700 flex items-center gap-1 px-2 py-0.5 rounded hover:bg-white"
+                  className={`text-xs text-slate-500 hover:${theme.primaryText} flex items-center gap-1 px-2 py-0.5 rounded hover:bg-white`}
                   title="이 항목만 복사"
                 >
                   {copiedSection === '1. 교육 만족도 종합 평가' ? (

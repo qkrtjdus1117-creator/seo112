@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Search, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { SurveyRow } from '../types';
+import { useTheme } from '../theme/ThemeContext';
 
 interface RawDataTableProps {
   rows: SurveyRow[];
@@ -13,6 +14,7 @@ interface RawDataTableProps {
  * - 접기/펼치기 지원
  */
 export const RawDataTable: React.FC<RawDataTableProps> = ({ rows }) => {
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [deptFilter, setDeptFilter] = useState('ALL');
@@ -112,7 +114,7 @@ export const RawDataTable: React.FC<RawDataTableProps> = ({ rows }) => {
                   <tr>
                     <th className="py-2.5 px-3 w-12 text-center">번호</th>
                     <th className="py-2.5 px-3 w-28">소속</th>
-                    <th className="py-2.5 px-2 text-center w-16 bg-blue-50/60 text-blue-900">전반적</th>
+                    <th className={`py-2.5 px-2 text-center w-16 ${theme.accentBgLight} ${theme.primaryText}`}>전반적</th>
                     <th className="py-2.5 px-2 text-center w-16">강의내용</th>
                     <th className="py-2.5 px-2 text-center w-16">강사전달</th>
                     <th className="py-2.5 px-2 text-center w-16">실습도움</th>
@@ -127,7 +129,7 @@ export const RawDataTable: React.FC<RawDataTableProps> = ({ rows }) => {
                       <tr key={row.id} className="hover:bg-slate-50/70">
                         <td className="py-2 px-3 text-center font-mono text-slate-500">{row.id}</td>
                         <td className="py-2 px-3 font-semibold text-slate-900">{row.department}</td>
-                        <td className="py-2 px-2 text-center font-bold text-blue-900 bg-blue-50/20 font-mono">
+                        <td className={`py-2 px-2 text-center font-bold ${theme.primaryText} ${theme.accentBgLight}/40 font-mono`}>
                           {row.overallSatisfaction}
                         </td>
                         <td className="py-2 px-2 text-center font-mono">{row.contentSatisfaction}</td>

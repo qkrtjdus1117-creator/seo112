@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Building2, ArrowUpDown, ChevronDown, ChevronUp } from 'lucide-react';
 import { DepartmentStat } from '../types';
+import { useTheme } from '../theme/ThemeContext';
 
 interface DepartmentAnalysisProps {
   departmentStats: DepartmentStat[];
@@ -12,6 +13,7 @@ interface DepartmentAnalysisProps {
  * - 소속별 세부 평점 비교 매트릭스 표
  */
 export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departmentStats }) => {
+  const { theme } = useTheme();
   const [showFullTable, setShowFullTable] = useState(false);
   const [sortField, setSortField] = useState<'avgOverall' | 'count'>('avgOverall');
   const [sortAsc, setSortAsc] = useState(false);
@@ -36,7 +38,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
     <section className="mb-8">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
-          <span className="w-2 h-5 bg-blue-700 rounded-xs inline-block"></span>
+          <span className={`w-2 h-5 ${theme.primaryBg} rounded-xs inline-block transition-colors`}></span>
           소속별 분석
         </h3>
         <span className="text-xs text-slate-500 font-normal">
@@ -47,7 +49,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
       <div className="bg-white rounded-xl border border-slate-200/90 shadow-2xs p-5">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-100 gap-2">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-md bg-blue-50 text-blue-700 flex items-center justify-center">
+            <div className={`w-7 h-7 rounded-md ${theme.accentBgLight} ${theme.primaryText} flex items-center justify-center transition-colors`}>
               <Building2 className="w-4 h-4" />
             </div>
             <div>
@@ -65,7 +67,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
               onClick={() => toggleSort('avgOverall')}
               className={`px-2 py-1 rounded border text-xs font-medium flex items-center gap-1 transition-colors ${
                 sortField === 'avgOverall'
-                  ? 'bg-blue-50 text-blue-800 border-blue-300 font-semibold'
+                  ? `${theme.accentBgLight} ${theme.primaryText} border-slate-300 font-semibold`
                   : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
               }`}
             >
@@ -77,7 +79,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
               onClick={() => toggleSort('count')}
               className={`px-2 py-1 rounded border text-xs font-medium flex items-center gap-1 transition-colors ${
                 sortField === 'count'
-                  ? 'bg-blue-50 text-blue-800 border-blue-300 font-semibold'
+                  ? `${theme.accentBgLight} ${theme.primaryText} border-slate-300 font-semibold`
                   : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
               }`}
             >
@@ -117,7 +119,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
                     )}
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-extrabold text-blue-900 font-mono">
+                    <span className={`text-sm font-extrabold ${theme.primaryText} font-mono`}>
                       {dept.avgOverall.toFixed(2)}
                     </span>
                     <span className="text-slate-400 text-xs">/ 5.00점</span>
@@ -135,9 +137,9 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       dept.avgOverall >= 4.5
-                        ? 'bg-blue-600'
+                        ? theme.barColor
                         : dept.avgOverall >= 4.0
-                        ? 'bg-sky-500'
+                        ? 'bg-sky-600'
                         : 'bg-amber-500'
                     }`}
                     style={{ width: `${percentage}%` }}
@@ -153,7 +155,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
           <button
             type="button"
             onClick={() => setShowFullTable(!showFullTable)}
-            className="w-full py-2 px-3 text-xs font-semibold text-slate-700 hover:text-blue-800 hover:bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-center gap-1.5 transition-colors"
+            className={`w-full py-2 px-3 text-xs font-semibold text-slate-700 hover:${theme.primaryText} hover:bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-center gap-1.5 transition-colors`}
           >
             <span>{showFullTable ? '소속별 5개 세부 항목 비교표 접기' : '소속별 5개 세부 항목 비교표 펼쳐보기'}</span>
             {showFullTable ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -166,7 +168,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
                   <tr>
                     <th className="py-2.5 px-3">소속 부서</th>
                     <th className="py-2.5 px-3 text-center">응답수</th>
-                    <th className="py-2.5 px-3 text-right bg-blue-50/50 text-blue-900">전반적만족도</th>
+                    <th className={`py-2.5 px-3 text-right ${theme.accentBgLight} ${theme.primaryText}`}>전반적만족도</th>
                     <th className="py-2.5 px-3 text-right">강의내용</th>
                     <th className="py-2.5 px-3 text-right">강사전달력</th>
                     <th className="py-2.5 px-3 text-right">실습도움도</th>
@@ -178,7 +180,7 @@ export const DepartmentAnalysis: React.FC<DepartmentAnalysisProps> = ({ departme
                     <tr key={dept.department} className="hover:bg-slate-50/80">
                       <td className="py-2.5 px-3 font-bold text-slate-900">{dept.department}</td>
                       <td className="py-2.5 px-3 text-center font-mono">{dept.count}명</td>
-                      <td className="py-2.5 px-3 text-right font-bold text-blue-900 bg-blue-50/30 font-mono">
+                      <td className={`py-2.5 px-3 text-right font-bold ${theme.primaryText} ${theme.accentBgLight}/50 font-mono`}>
                         {dept.avgOverall.toFixed(2)}
                       </td>
                       <td className="py-2.5 px-3 text-right font-mono">{dept.avgContent.toFixed(2)}</td>

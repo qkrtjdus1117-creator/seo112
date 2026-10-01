@@ -18,6 +18,7 @@ import {
   KeywordFrequency,
   PositiveCategoryType
 } from '../types';
+import { useTheme } from '../theme/ThemeContext';
 
 interface FeedbackAnalysisProps {
   positiveCategories: CategorySummary<PositiveCategoryType>[];
@@ -41,6 +42,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
   positiveKeywords,
   improvementKeywords
 }) => {
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<'positive' | 'improvement'>('positive');
   const [visMode, setVisMode] = useState<VisualizationMode>('chart');
   const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
@@ -76,7 +78,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
         <div>
           <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
-            <span className="w-2 h-5 bg-blue-700 rounded-xs inline-block"></span>
+            <span className={`w-2 h-5 ${theme.primaryBg} rounded-xs inline-block transition-colors`}></span>
             서술형 의견 분석 & 키워드 시각화
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -91,7 +93,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
             onClick={() => setVisMode('chart')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
               visMode === 'chart'
-                ? 'bg-white text-blue-900 shadow-2xs font-bold'
+                ? `bg-white ${theme.primaryText} shadow-2xs font-bold`
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -103,7 +105,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
             onClick={() => setVisMode('cloud')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
               visMode === 'cloud'
-                ? 'bg-white text-blue-900 shadow-2xs font-bold'
+                ? `bg-white ${theme.primaryText} shadow-2xs font-bold`
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -115,7 +117,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
             onClick={() => setVisMode('categories')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
               visMode === 'categories'
-                ? 'bg-white text-blue-900 shadow-2xs font-bold'
+                ? `bg-white ${theme.primaryText} shadow-2xs font-bold`
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
@@ -133,7 +135,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
             onClick={() => handleTabChange('positive')}
             className={`flex-1 py-2.5 px-4 rounded-lg text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all ${
               activeTab === 'positive'
-                ? 'bg-white text-blue-900 shadow-xs border border-slate-200'
+                ? `bg-white ${theme.primaryText} shadow-xs border border-slate-200`
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
             }`}
           >
@@ -149,7 +151,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
             onClick={() => handleTabChange('improvement')}
             className={`flex-1 py-2.5 px-4 rounded-lg text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all ${
               activeTab === 'improvement'
-                ? 'bg-white text-blue-900 shadow-xs border border-slate-200'
+                ? `bg-white ${theme.primaryText} shadow-xs border border-slate-200`
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
             }`}
           >
@@ -476,9 +478,9 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
             <div className="mt-6 pt-5 border-t border-slate-200 animate-in fade-in duration-200">
               <div className="flex items-center justify-between mb-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
                 <div className="flex items-center gap-2">
-                  <Filter className="w-4 h-4 text-blue-700" />
+                  <Filter className={`w-4 h-4 ${theme.primaryText}`} />
                   <span className="text-xs sm:text-sm font-bold text-slate-800">
-                    선택 키워드: <strong className="text-blue-700">'{selectedKeyword}'</strong> 포함 의견 ({filteredComments.length}건)
+                    선택 키워드: <strong className={theme.primaryText}>'{selectedKeyword}'</strong> 포함 의견 ({filteredComments.length}건)
                   </span>
                 </div>
                 <button
@@ -495,7 +497,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
                 {filteredComments.map((item, idx) => (
                   <div
                     key={idx}
-                    className="p-3 rounded-lg bg-white border border-slate-200 text-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 hover:border-blue-300 transition-colors"
+                    className="p-3 rounded-lg bg-white border border-slate-200 text-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 hover:border-slate-400 transition-colors"
                   >
                     <span className="text-slate-800 leading-relaxed font-medium">
                       {item.text}
@@ -504,7 +506,7 @@ export const FeedbackAnalysis: React.FC<FeedbackAnalysisProps> = ({
                       <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-semibold">
                         {item.department}
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-800 text-[11px] font-semibold border border-blue-200">
+                      <span className={`px-2 py-0.5 rounded ${theme.accentBgLight} ${theme.primaryText} text-[11px] font-semibold border border-slate-200`}>
                         {item.category}
                       </span>
                     </div>

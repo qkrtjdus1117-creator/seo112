@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { readCsvFileContent } from '../utils/csvParser';
 import { ValidationErrorDetail } from '../types';
+import { useTheme } from '../theme/ThemeContext';
 
 interface FileUploadProps {
   onFileLoaded: (csvText: string, fileName: string) => void;
@@ -35,6 +36,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   validationErrors,
   onClearError
 }) => {
+  const { theme } = useTheme();
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
@@ -99,7 +101,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-100 gap-2">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <FileSpreadsheetIcon className="w-5 h-5 text-blue-700" />
+            <FileSpreadsheetIcon className={`w-5 h-5 ${theme.primaryText}`} />
             CSV 파일 업로드 및 분석 준비
           </h2>
           <p className="text-sm text-slate-500 mt-0.5">
@@ -110,7 +112,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         <button
           type="button"
           onClick={() => setShowGuide(!showGuide)}
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-blue-700 bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200 transition-colors shrink-0 self-start sm:self-auto"
+          className={`inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:${theme.primaryText} bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200 transition-colors shrink-0 self-start sm:self-auto`}
         >
           <HelpCircle className="w-3.5 h-3.5" />
           <span>{showGuide ? '서식 안내 닫기' : 'CSV 필수 9개 항목 및 유효범위 안내'}</span>
@@ -119,42 +121,42 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
       {/* CSV 필수 항목 도움말 안내 박스 */}
       {showGuide && (
-        <div className="mt-4 p-4 rounded-lg bg-blue-50/70 border border-blue-200/80 text-xs sm:text-sm text-slate-700 space-y-2.5">
+        <div className={`mt-4 p-4 rounded-lg ${theme.accentBgLight} border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-2.5`}>
           <div className="flex items-center justify-between">
-            <p className="font-semibold text-blue-900">
+            <p className={`font-semibold ${theme.primaryText}`}>
               ※ 업로드할 CSV 파일에는 다음 9개 항목이 반드시 포함되어야 합니다:
             </p>
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">
+            <span className={`text-[11px] font-bold px-2 py-0.5 rounded bg-white ${theme.primaryText} border border-slate-200 shadow-2xs`}>
               점수 척도: 1점 ~ 5점
             </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 pt-1 font-mono text-xs">
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans`}>
               1. 번호 (식별자)
             </span>
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans`}>
               2. 소속 (부서/기관)
             </span>
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans font-semibold">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans font-semibold`}>
               3. 전반적만족도 (1~5점)
             </span>
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans font-semibold">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans font-semibold`}>
               4. 강의내용 (1~5점)
             </span>
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans font-semibold">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans font-semibold`}>
               5. 강사전달력 (1~5점)
             </span>
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans font-semibold">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans font-semibold`}>
               6. 실습도움도 (1~5점)
             </span>
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans font-semibold">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans font-semibold`}>
               7. 추천의향 (1~5점)
             </span>
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans`}>
               8. 좋았던점 (서술형)
             </span>
-            <span className="bg-white px-2 py-1 rounded border border-blue-200 text-blue-900 font-sans">
+            <span className={`bg-white px-2 py-1 rounded border border-slate-200 ${theme.primaryText} font-sans`}>
               9. 개선점 (서술형)
             </span>
           </div>
@@ -272,18 +274,18 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           onClick={() => fileInputRef.current?.click()}
           className={`relative border-2 border-dashed rounded-xl p-8 sm:p-10 text-center cursor-pointer transition-all duration-200 ${
             isDragging
-              ? 'border-blue-600 bg-blue-50/60 scale-[0.99]'
-              : 'border-slate-300 hover:border-blue-500 hover:bg-slate-50/70 bg-slate-50/30'
+              ? `${theme.primaryBorder} ${theme.accentBgLight} scale-[0.99]`
+              : 'border-slate-300 hover:border-slate-400 hover:bg-slate-50/70 bg-slate-50/30'
           }`}
         >
           <div className="flex flex-col items-center justify-center space-y-3">
-            <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center text-blue-700 border border-blue-100">
+            <div className={`w-14 h-14 rounded-full ${theme.accentBgLight} flex items-center justify-center ${theme.primaryText} border border-slate-200`}>
               <UploadCloud className="w-7 h-7" />
             </div>
 
             <div>
               <p className="text-base font-semibold text-slate-800">
-                CSV 파일을 이곳에 끌어다 놓거나, <span className="text-blue-700 underline underline-offset-2">클릭하여 선택</span>하세요.
+                CSV 파일을 이곳에 끌어다 놓거나, <span className={`${theme.primaryText} underline underline-offset-2 font-bold`}>클릭하여 선택</span>하세요.
               </p>
               <p className="text-xs sm:text-sm text-slate-500 mt-1">
                 CSV 파일을 다시 업로드하면 언제든 새로운 분석 결과를 즉시 산출합니다.
@@ -312,7 +314,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
               <span>
                 분석 완료 파일: <strong className="text-slate-900">{currentFileName}</strong>
               </span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
+              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${theme.accentBgLight} ${theme.primaryText} border border-slate-200`}>
                 전체 응답자: {totalCount.toLocaleString()}명
               </span>
             </div>
@@ -337,7 +339,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             <button
               type="button"
               onClick={onLoadSample}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 bg-white hover:bg-blue-50 px-3 py-1 rounded border border-blue-300 shadow-2xs"
+              className={`inline-flex items-center gap-1.5 text-xs font-semibold ${theme.primaryText} hover:opacity-90 bg-white hover:${theme.accentBgLight} px-3 py-1 rounded border border-slate-300 shadow-2xs transition-colors`}
             >
               <FileCheck2 className="w-3.5 h-3.5" />
               <span>샘플 데이터 바로 불러오기</span>
